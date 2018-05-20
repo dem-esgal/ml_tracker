@@ -32,6 +32,6 @@ except ImportError:
 
     HAS_NOTEBOOK = False
 
-
+print(HAS_NOTEBOOK)
 def in_notebook_environment():
     return "ipykernel" in sys.modules

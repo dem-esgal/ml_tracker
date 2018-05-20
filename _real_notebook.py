@@ -5,8 +5,7 @@ import errno
 import hashlib
 import json
 import logging
-import os
-from os.path import abspath, isdir
+from os.path import abspath
 
 from IPython import get_ipython
 
@@ -31,6 +30,7 @@ def load_jupyter_server_extension(nbapp):
 
 def get_notebook_id():
     _Jupyter = get_ipython()
+    print(_Jupyter)
     if _Jupyter is None:
         return None
 
@@ -46,17 +46,6 @@ def get_hash_content(model):
     content_hash = hashlib.sha1(json_model.encode("utf-8")).hexdigest()
 
     return content_hash, json_model
-
-
-def create_cache_dir():
-    try:
-        os.makedirs(CACHE_DIR)
-    except (IOError, OSError) as error:
-        if error.errno == errno.EEXIST and isdir(CACHE_DIR):
-            return
-
-        raise
-
 
 def parse_jupyter_server_model(model):
     for cell in model["content"]["cells"]:

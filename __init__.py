@@ -57,18 +57,18 @@ class Experiment(object):
         self.others = {}
         self.params = {}
         self.version = version + '-' + generate_guid()
+        self.is_notebook = False
 
         if in_notebook_environment():
             self.log_code = False
+            self.is_notebook = True
             notebook_id = get_notebook_id()
-
-            if notebook_id is None:
-                LOGGER.warning("Missing notebook id")
+            LOGGER.debug(notebook_id)
 
         self._start()
 
     def _on_end(self):
-        if not self.commited:
+        if not self.commited and not self.is_notebook:
             self.commit()
 
     def _start(self):
